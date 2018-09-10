@@ -177,4 +177,18 @@ Example Response:
 }
 ```
 
+<img id="image" data-id/>
+<h4 id="name"></h4>
+<span>Likes:
+  <span id="likes">0</span>
+</span>
+<button id="like_button">Like</button>
+<form id="comment_form">
+  <input id="comment_input" type="text" name="comment" placeholder="Add Comment"/>
+  <input type="submit" value="Submit"/>
+</form>
+<ul id="comments">
+
+</ul>
+
 *(Hint: To get the comment's id you may have to think about changing the way you handle the response received from creating a comment)*
