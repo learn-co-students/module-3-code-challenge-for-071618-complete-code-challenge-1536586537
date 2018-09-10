@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-  const imageId = parseInt(Math.random()*8)+1 //Enter your assigned imageId here
+  const imageId = 3 //Enter your assigned imageId here
 
   const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
 
