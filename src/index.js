@@ -36,27 +36,27 @@ document.addEventListener('DOMContentLoaded', function() {
       likesEl.innerText=apiObj.like_count
       apiObj.comments.forEach(function(comment){
         commentsEl.innerHTML+=`
-          <li data-id=${comment.id}>
-            ${comment.content} <button type='delete' data-action='delete' data-id=${comment.id}>X</button>
+          <li id=${comment.id}>
+            ${comment.content} <button id=${comment.id} type='delete' data-action='delete'>X</button>
           </li>
         `
       })
     })
   }
 
-  function addClickButtonListenerToImageCard(){
-      imageCard.addEventListener('click',function(event){
-        if(event.target.dataset.action==='like'){
-          let likeCount = likesEl.innerText
-          likesEl.innerText = ++likeCount
-          fetch(likeURL,{
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            method: "POST",
-            body: JSON.stringify({image_id:4})
-        }).then(res=>res.json()).then(obj=>console.log(obj))}
+  // function addClickButtonListenerToImageCard(){
+  //     imageCard.addEventListener('click',function(event){
+  //       if(event.target.dataset.action==='like'){
+        //   let likeCount = likesEl.innerText
+        //   likesEl.innerText = ++likeCount
+        //   fetch(likeURL,{
+        //     headers: {
+        //       'Accept': 'application/json',
+        //       'Content-Type': 'application/json'
+        //     },
+        //     method: "POST",
+        //     body: JSON.stringify({image_id:4})
+        // }).then(res=>res.json()).then(obj=>console.log(obj))}
       // else if(event.target.dataset.action='delete'){
       //   fetch(commentsURL,{
       //     headers: {
@@ -66,8 +66,38 @@ document.addEventListener('DOMContentLoaded', function() {
       //     method: "DELETE",
       //     body: JSON.stringify({image_id:4,id:document.querySelector(`li[data-id=${comment.id}]`)})
       // }).then(res=>res.json()).then(obj=>console.log(obj))}
-    })       
+  //     }
+  //   })       
+  // }
+
+  function addClickButtonListenerToImageCard(){
+    imageCard.addEventListener('click',function(){
+      if(event.target.dataset.action==="like"){
+        let likeCount = likesEl.innerText;
+        likesEl.innerText = ++likeCount;
+        fetch(likeURL,{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({image_id:4})
+      }).then(res=>res.json()).then(obj=>console.log(obj))}
+       else if(event.target.dataset.action==="delete"){
+        let deleteTargetId = event.target.id;
+        let deleteTarget = document.getElementById(deleteTargetId);
+        deleteTarget.remove();
+        fetch(`${commentsURL}/${deleteTargetId}`,{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "DELETE",
+          body: JSON.stringify({image_id:4})
+      }).then(res=>res.json()).then(obj=>console.log(obj))}
+    })
   }
+  
 
 
   function addSubmitListenerToImageCard(){
