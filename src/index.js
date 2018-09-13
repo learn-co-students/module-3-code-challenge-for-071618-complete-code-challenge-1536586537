@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const likeURL = `https://randopic.herokuapp.com/likes/7`
   const commentsURL = `https://randopic.herokuapp.com/comments/7`
 
-
+  let commentHolder = document.getElementById('comments')
   let imageHolder = document.getElementById('image_card')
 
   // GET INFO
 
-  fetch(`https://randopic.herokuapp.com/images/`)
+  fetch(imageURL)
   .then(response => response.json())
   .then(data => displayData(data))
 
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let nameOfPic = document.getElementById('name')
     nameOfPic.innerText = `${data.name}`
     image.src = (`${data.url}`)
-    let commentHolder = document.getElementById('comments')
+
     data.comments.forEach( comment =>{
       let eachComment = document.createElement('li')
       eachComment.innerText = `${comment.content}`
@@ -27,11 +27,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
       //SUBMIT BUTTON NEED TO SUBMIT VALUE OF COMMENT INPUT AND PERSIST TO DATABASE
       //WILL SHOW COMMENT ON REFRESH
-      let submitButton = document.getElementById('submit')
+      let submitForm = document.getElementById('comment_form')
 
-      submitButton.addEventListener('click', (event) => {
+      submitForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        let commentInput = document.getElementById('comment-input')
+        let commentInput = document.getElementById('comment_input')
+        let startComment = document.createElement('li')
+
+        startComment.innerText = commentInput.value
+        commentHolder.appendChild(startComment)
+        console.log(commentInput)
         fetch(commentsURL,
         {
           headers: {
@@ -49,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let likes = document.getElementById('likes')
     likes.innerText = parseInt(`${data.like_count}`)
     likeButton.addEventListener('click', () => {
-      likes.innerText += 1
+      likes.innerText += parseInt(1)
       fetch(likeURL,
         {
           headers: {
